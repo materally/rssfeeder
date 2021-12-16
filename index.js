@@ -1,7 +1,7 @@
 const express = require("express");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 const { rssFeeder } = require("./rssFeeder");
 const { getData } = require("./getData");
 
@@ -14,9 +14,10 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  const feed = await rssFeeder();
-  const feedItems = await getData();
-  res.render("index", { data: feedItems });
+  rssFeeder();
+  setTimeout(() => {
+    res.redirect("/");
+  }, 1500);
 });
 
 app.listen(port, () => {
